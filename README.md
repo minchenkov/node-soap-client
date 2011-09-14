@@ -7,7 +7,7 @@ SOAP client library for NodeJS.
 
 ## Examples
 
-    var SoapClient = require('../lib/node-soap-client.js').SoapClient;
+    var SoapClient = require('node-soap-client').SoapClient;
 
     new SoapClient({
         wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL',
@@ -15,9 +15,9 @@ SOAP client library for NodeJS.
             var searchingModule = new metabus.SearchingModule();
 
             searchingModule.search({geoFilter: {distance: 10}, text: 'кофе около кремля'}, function(result) {
-                console.log(result.faceting.marketplaceProperties[0])
+                console.log(sys.inspect(result));
             }, function(fault){
-                console.log(fault.children[1].text())
+                console.log(sys.inspect(fault))
             });
 
             // or same request in other syntax
