@@ -15,22 +15,3 @@ new SoapClient({
 		throw err;
 	}
 });
-
-
-//new SoapClient({
-//    wsdl: 'http://dev.metahouse.ru:8080/configurationManager-0.0.2-SNAPSHOT/ws/ConfigurationManager?wsdl',
-//    success: function(metabus) {
-//        var cfgManager = new metabus.ConfigurationManager();
-//
-//        cfgManager.load({configurations: ['pharmacy']}, function(result) {
-//            console.log(result)
-//        }, function(err){
-//            console.log(err)
-//        });
-//    },
-//    error: function(err) {
-//        throw err;
-//    }
-//});
-//
-//

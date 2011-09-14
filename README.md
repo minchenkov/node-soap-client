@@ -7,47 +7,28 @@ SOAP client library for NodeJS.
 
 ## Examples
 
-    var XmlWriter = require('simple-xml-writer').XmlWriter;
+var SoapClient = require('../lib/node-soap-client.js').SoapClient;
 
-    var data = new XmlWriter(function(el) {
-        el('root', function(el, at) {
-            at('xmlns:c', 'http://schemas.xmlsoap.org/wsdl/');
-            el('node', function(el, at) {
-                at('name', 'foo');
-                at('null_attr');
-                at('empty_attr', '');
+    new SoapClient({
+        wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL',
+        success: function(metabus) {
+            var searchingModule = new metabus.SearchingModule();
 
-                el('value', 'foo');
-                el('null_node');
-                el('empty_node', '');
-                el('c:value', 'text', function(el) {
-                    el('encoding', 'tags:  <br />', function(el, at, text) {
-                        at('quotes', '""');
-                        el('dd', function(el, at, text) {
-                            text('foo')
-                            text('bar')
-                        })
-                    });
-                });
+            searchingModule.search({geoFilter: {distance: 10}, text: 'кофе около кремля'}, function(result) {
+                console.log(result.faceting.marketplaceProperties[0])
+            }, function(fault){
+                console.log(fault.children[1].text())
             });
-        });
-    }, { addDeclaration: true });
 
-    console.log(data.toString());
+            // or same request in other syntax
+            // searchingModule.search(new metabus.SearchQuery({geoFilter: new metabus.GeoFilter({distance: 10}), text: 'кофе около кремля'}), function(result) {...})
 
-Output:
-
-    <?xml version="1.0" encoding="UTF-8"?>
-    <root xmlns:c="http://schemas.xmlsoap.org/wsdl/">
-      <node name="foo" empty_attr="">
-        <value>foo</value>
-        <empty_node/>
-        <c:value>
-          <encoding quotes="&quot;&quot;">
-            <dd>foobar</dd>
-            tags:  &lt;br /&gt;
-          </encoding>
-          text
-        </c:value>
-      </node>
-    </root>
+            // proxy methods signature
+            // module.method(arg1, arg2, arg3, success_callback, error_callback)
+            // or module.method({"param1": arg1, "param2": arg2, "param3": arg3}, success_callback, error_callback)
+            // args can be JSON objects or proxy objects, generated from WSDL
+        },
+        error: function(err) {
+            throw err;
+        }
+    });
