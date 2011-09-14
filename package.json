@@ -1,0 +1,27 @@
+{
+    "name": "node-soap-client",
+    "version": "0.0.1",
+    "description": "SOAP client library ",
+    "keywords": [
+        "soap",
+        "wsdl",
+        "web-services"
+    ],
+    "main": "./lib/node-soap-client",
+    "author": "Pavel Minchenkov <pavel@metahouse.ru>",
+    "engines" : {
+        "node" : ">=0.4.0"
+    },
+    "dependencies": {
+        "simple-xml-writer" : ">=0.0.1",
+        "node-html-encoder" : ">=0.0.1",
+        "sax": ">=0.1.5",
+        "dom-js": "git+ssh://git@github.com:minchenkov/dom-js.git"
+    },
+    "homepage": "https://github.com/minchenkov/node-soap-client",
+    "repository" :
+    {
+        "type" : "git",
+        "url" : "git://github.com/minchenkov/node-soap-client.git"
+    }
+}

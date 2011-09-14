@@ -1,0 +1,616 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ Copyright JSC Metahouse
+  ~ 15.09.2011 00:36
+  ~ minchenkov
+  -->
+
+<wsdl:definitions name="SearchingModuleService"
+				  targetNamespace="http://searching.openapi.engine.services.web.service.metabus.ru/"
+				  xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				  xmlns:tns="http://searching.openapi.engine.services.web.service.metabus.ru/"
+				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="unqualified"
+				   targetNamespace="http://searching.openapi.engine.services.web.service.metabus.ru/" version="1.0"
+				   xmlns:tns="http://searching.openapi.engine.services.web.service.metabus.ru/"
+				   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="search" type="tns:search"/>
+			<xs:element name="searchResponse" type="tns:searchResponse"/>
+			<xs:element name="suggestAddress" type="tns:suggestAddress"/>
+			<xs:element name="suggestAddressResponse" type="tns:suggestAddressResponse"/>
+			<xs:element name="suggestObject" type="tns:suggestObject"/>
+			<xs:element name="suggestObjectResponse" type="tns:suggestObjectResponse"/>
+			<xs:element name="suggestProperty" type="tns:suggestProperty"/>
+			<xs:element name="suggestPropertyResponse" type="tns:suggestPropertyResponse"/>
+			<xs:element name="suggestQueryText" type="tns:suggestQueryText"/>
+			<xs:element name="suggestQueryTextResponse" type="tns:suggestQueryTextResponse"/>
+			<xs:complexType name="suggestProperty">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="configurationId" type="xs:string"/>
+					<xs:element minOccurs="0" name="propertyName" type="xs:string"/>
+					<xs:element minOccurs="0" name="text" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestPropertyResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestAddress">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="text" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestAddressResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="search">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="query" type="tns:searchQuery"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="searchQuery">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+					<xs:element minOccurs="0" name="geoFilter" type="tns:geoFilter"/>
+					<xs:element minOccurs="0" name="marketplaceFilter" type="tns:marketplaceFilter"/>
+					<xs:element minOccurs="0" name="pageIndex" type="xs:int"/>
+					<xs:element minOccurs="0" name="productFilter" type="tns:productFilter"/>
+					<xs:element minOccurs="0" name="text" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="geoFilter">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="address" type="xs:string"/>
+					<xs:element minOccurs="0" name="bounds" type="tns:latLngBounds"/>
+					<xs:element minOccurs="0" name="distance" type="xs:double"/>
+					<xs:element minOccurs="0" name="latLng" type="tns:latLng"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="latLngBounds">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="northEast" type="tns:latLng"/>
+					<xs:element minOccurs="0" name="southWest" type="tns:latLng"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="latLng">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="lat" type="xs:double"/>
+					<xs:element minOccurs="0" name="lng" type="xs:double"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="marketplaceFilter">
+				<xs:complexContent>
+					<xs:extension base="tns:entityFilter">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="grouped" type="xs:boolean"/>
+							<xs:element minOccurs="0" name="marketplaceId" type="xs:string"/>
+							<xs:element minOccurs="0" name="workTimeFilter" type="tns:workTimeFilter"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="entityFilter">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="configuration" type="tns:configuration"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true"
+								type="tns:propertyFilter"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="workTimeFilter">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="day" type="tns:workDay"/>
+					<xs:element minOccurs="0" name="time" type="xs:string"/>
+					<xs:element minOccurs="0" name="type" type="tns:workTimeType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="configuration">
+				<xs:complexContent>
+					<xs:extension base="tns:moduleEntity">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="metadata" nillable="true"
+										type="tns:metadata"/>
+							<xs:element minOccurs="0" name="name" type="xs:string"/>
+							<xs:element minOccurs="0" name="parent" type="tns:configuration"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true"
+										type="tns:configurationProperty"/>
+							<xs:element minOccurs="0" name="type" type="tns:configurationType"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="moduleEntity">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="id" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="metadata">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="childMetadata" nillable="true"
+								type="tns:metadata"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element minOccurs="0" name="value" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="configurationProperty">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="metadata" nillable="true"
+								type="tns:metadata"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element minOccurs="0" name="type" type="tns:configurationPropertyType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="propertyFilter">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="max" type="xs:string"/>
+					<xs:element minOccurs="0" name="min" type="xs:string"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="productFilter">
+				<xs:complexContent>
+					<xs:extension base="tns:entityFilter">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="maxPrice" type="xs:double"/>
+							<xs:element minOccurs="0" name="minPrice" type="xs:double"/>
+							<xs:element minOccurs="0" name="sortByPrice" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="searchResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="tns:searchResult"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="searchResult">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="didYouMean" type="xs:string"/>
+					<xs:element minOccurs="0" name="faceting" type="tns:faceting"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="marketplaces" nillable="true"
+								type="tns:marketplaceResult"/>
+					<xs:element minOccurs="0" name="pageSize" type="xs:int"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="products" nillable="true"
+								type="tns:productResult"/>
+					<xs:element minOccurs="0" name="query" type="tns:searchQuery"/>
+					<xs:element minOccurs="0" name="searchSubject" type="xs:string"/>
+					<xs:element minOccurs="0" name="time" type="xs:double"/>
+					<xs:element minOccurs="0" name="totalCount" type="xs:long"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="faceting">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="marketplaceProperties" nillable="true"
+								type="tns:propertyFacet"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="marketplaces" nillable="true"
+								type="tns:facetValue"/>
+					<xs:element minOccurs="0" name="maxPrice" type="xs:double"/>
+					<xs:element minOccurs="0" name="minPrice" type="xs:double"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="productProperties" nillable="true"
+								type="tns:propertyFacet"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="products" nillable="true"
+								type="tns:facetValue"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="propertyFacet">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="facets" nillable="true"
+								type="tns:facetValue"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="facetValue">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element minOccurs="0" name="value" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="marketplaceResult">
+				<xs:complexContent>
+					<xs:extension base="tns:entityResult">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="distance" type="xs:double"/>
+							<xs:element minOccurs="0" name="marketplace" type="tns:marketplace"/>
+							<xs:element minOccurs="0" name="productsCount" type="xs:int"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="entityResult">
+				<xs:sequence/>
+			</xs:complexType>
+			<xs:complexType name="marketplace">
+				<xs:complexContent>
+					<xs:extension base="tns:contactData">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="address" type="tns:address"/>
+							<xs:element minOccurs="0" name="company" type="tns:company"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="contactData">
+				<xs:complexContent>
+					<xs:extension base="tns:commonData">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="emails" nillable="true"
+										type="tns:email"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="images" nillable="true"
+										type="tns:image"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="phones" nillable="true"
+										type="tns:phone"/>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="websites" nillable="true"
+										type="tns:website"/>
+							<xs:element minOccurs="0" name="workTime" type="tns:workTime"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="commonData">
+				<xs:complexContent>
+					<xs:extension base="tns:objectWithConfiguration">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="description" type="xs:string"/>
+							<xs:element minOccurs="0" name="keywords" type="xs:string"/>
+							<xs:element minOccurs="0" name="name" type="xs:string"/>
+							<xs:element minOccurs="0" name="processedDate" type="xs:dateTime"/>
+							<xs:element minOccurs="0" name="source" type="xs:string"/>
+							<xs:element minOccurs="0" name="sourceDate" type="xs:dateTime"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="objectWithConfiguration">
+				<xs:complexContent>
+					<xs:extension base="tns:moduleEntity">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="configurationData" type="tns:configurationData"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="address">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="latLng" type="tns:latLng"/>
+					<xs:element minOccurs="0" name="localName" type="xs:string"/>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="company">
+				<xs:complexContent>
+					<xs:extension base="tns:contactData">
+						<xs:sequence/>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="email">
+				<xs:complexContent>
+					<xs:extension base="tns:objectWithComment">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="value" type="xs:string"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType abstract="true" name="objectWithComment">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="comment" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="image">
+				<xs:complexContent>
+					<xs:extension base="tns:objectWithComment">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="url" type="xs:string"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="phone">
+				<xs:complexContent>
+					<xs:extension base="tns:objectWithComment">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="number" type="xs:string"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="website">
+				<xs:complexContent>
+					<xs:extension base="tns:objectWithComment">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="url" type="xs:string"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="workTime">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="friday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="holidays" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="monday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="saturday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="sunday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="thursday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="tuesday" type="tns:workTimeDay"/>
+					<xs:element minOccurs="0" name="value" type="xs:string"/>
+					<xs:element minOccurs="0" name="wednesday" type="tns:workTimeDay"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="workTimeDay">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="close" type="xs:string"/>
+					<xs:element minOccurs="0" name="open" type="xs:string"/>
+					<xs:element minOccurs="0" name="type" type="tns:workTimeType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="configurationData">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="configuration" type="tns:configuration"/>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true"
+								type="tns:configurationDataValue"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="configurationDataValue">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="name" type="xs:string"/>
+					<xs:element minOccurs="0" name="value" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="productResult">
+				<xs:complexContent>
+					<xs:extension base="tns:entityResult">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="marketplaces" nillable="true"
+										type="xs:string"/>
+							<xs:element minOccurs="0" name="product" type="tns:product"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="product">
+				<xs:complexContent>
+					<xs:extension base="tns:commonData">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="currency" type="tns:currency"/>
+							<xs:element minOccurs="0" name="folder" type="tns:folder"/>
+							<xs:element minOccurs="0" name="maxPrice" type="xs:double"/>
+							<xs:element minOccurs="0" name="price" type="xs:double"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="currency">
+				<xs:complexContent>
+					<xs:extension base="tns:moduleEntity">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="code" type="xs:string"/>
+							<xs:element minOccurs="0" name="name" type="xs:string"/>
+							<xs:element minOccurs="0" name="rate" type="xs:double"/>
+							<xs:element minOccurs="0" name="updateDate" type="xs:dateTime"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="folder">
+				<xs:complexContent>
+					<xs:extension base="tns:moduleEntity">
+						<xs:sequence>
+							<xs:element minOccurs="0" name="name" type="xs:string"/>
+							<xs:element minOccurs="0" name="parentCatalog" type="tns:catalog"/>
+							<xs:element minOccurs="0" name="parentFolder" type="tns:folder"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="catalog">
+				<xs:complexContent>
+					<xs:extension base="tns:moduleEntity">
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="marketplaces" nillable="true"
+										type="tns:marketplace"/>
+							<xs:element minOccurs="0" name="name" type="xs:string"/>
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name="suggestQueryText">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="text" type="xs:string"/>
+					<xs:element minOccurs="0" name="cursorPosition" type="xs:int"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestQueryTextResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:suggestVariant"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestVariant">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="address" type="xs:string"/>
+					<xs:element minOccurs="0" name="addressFirst" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="cursorInAddress" type="xs:boolean"/>
+					<xs:element minOccurs="0" name="object" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestObject">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="text" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="suggestObjectResponse">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:simpleType name="workDay">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="MONDAY"/>
+					<xs:enumeration value="TUESDAY"/>
+					<xs:enumeration value="WEDNESDAY"/>
+					<xs:enumeration value="THURSDAY"/>
+					<xs:enumeration value="FRIDAY"/>
+					<xs:enumeration value="SATURDAY"/>
+					<xs:enumeration value="SUNDAY"/>
+					<xs:enumeration value="HOLIDAYS"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="workTimeType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="NOT_WORKING"/>
+					<xs:enumeration value="FIXED"/>
+					<xs:enumeration value="LAST_VISITOR"/>
+					<xs:enumeration value="AROUND_THE_CLOCK"/>
+					<xs:enumeration value="UNKNOWN"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="configurationPropertyType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="INT"/>
+					<xs:enumeration value="DOUBLE"/>
+					<xs:enumeration value="STRING"/>
+					<xs:enumeration value="TEXT"/>
+					<xs:enumeration value="ENUM"/>
+					<xs:enumeration value="MULTI_ENUM"/>
+					<xs:enumeration value="BOOLEAN"/>
+					<xs:enumeration value="DATE_TIME"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="configurationType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="COMPANY"/>
+					<xs:enumeration value="MARKETPLACE"/>
+					<xs:enumeration value="PRODUCT"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="suggestObject">
+		<wsdl:part element="tns:suggestObject" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestQueryText">
+		<wsdl:part element="tns:suggestQueryText" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestProperty">
+		<wsdl:part element="tns:suggestProperty" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestObjectResponse">
+		<wsdl:part element="tns:suggestObjectResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="search">
+		<wsdl:part element="tns:search" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="searchResponse">
+		<wsdl:part element="tns:searchResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestAddressResponse">
+		<wsdl:part element="tns:suggestAddressResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestAddress">
+		<wsdl:part element="tns:suggestAddress" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestPropertyResponse">
+		<wsdl:part element="tns:suggestPropertyResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="suggestQueryTextResponse">
+		<wsdl:part element="tns:suggestQueryTextResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="SearchingModule">
+		<wsdl:operation name="suggestProperty">
+			<wsdl:input message="tns:suggestProperty" name="suggestProperty">
+			</wsdl:input>
+			<wsdl:output message="tns:suggestPropertyResponse" name="suggestPropertyResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestAddress">
+			<wsdl:input message="tns:suggestAddress" name="suggestAddress">
+			</wsdl:input>
+			<wsdl:output message="tns:suggestAddressResponse" name="suggestAddressResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="search">
+			<wsdl:input message="tns:search" name="search">
+			</wsdl:input>
+			<wsdl:output message="tns:searchResponse" name="searchResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestQueryText">
+			<wsdl:input message="tns:suggestQueryText" name="suggestQueryText">
+			</wsdl:input>
+			<wsdl:output message="tns:suggestQueryTextResponse" name="suggestQueryTextResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestObject">
+			<wsdl:input message="tns:suggestObject" name="suggestObject">
+			</wsdl:input>
+			<wsdl:output message="tns:suggestObjectResponse" name="suggestObjectResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SearchingModuleServiceSoapBinding" type="tns:SearchingModule">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="suggestProperty">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="suggestProperty">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="suggestPropertyResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestAddress">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="suggestAddress">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="suggestAddressResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="search">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="search">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="searchResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestObject">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="suggestObject">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="suggestObjectResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="suggestQueryText">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="suggestQueryText">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="suggestQueryTextResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SearchingModuleService">
+		<wsdl:port binding="tns:SearchingModuleServiceSoapBinding" name="SearchingModulePort">
+			<soap:address location="http://api.metabus.ru/0.0.1/ws/SearchingModule"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
