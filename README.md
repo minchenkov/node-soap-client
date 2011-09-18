@@ -9,26 +9,23 @@ SOAP client library for NodeJS.
 
     var SoapClient = require('node-soap-client').SoapClient;
 
-    new SoapClient({
-        wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL',
-        success: function(metabus) {
-            var searchingModule = new metabus.SearchingModule();
+    new SoapClient({wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'}, function(err, metabus) {
+        var searchingModule = new metabus.SearchingModule();
 
-            searchingModule.search({geoFilter: {distance: 10}, text: 'кофе около кремля'}, function(result) {
-                console.log(sys.inspect(result));
-            }, function(fault){
-                console.log(sys.inspect(fault))
-            });
+        searchingModule.search({geoFilter: {distance: 10}, text: ''}, function(err, result) {
+            if (err)
+                console.log(err.children[1].text())
+            else
+                console.log(result);
+        });
 
-            // or same request in other syntax
-            // searchingModule.search(new metabus.SearchQuery({geoFilter: new metabus.GeoFilter({distance: 10}), text: 'кофе около кремля'}), function(result) {...})
+        // or same request in other syntax
+        // searchingModule.search(new metabus.SearchQuery({geoFilter: new metabus.GeoFilter({distance: 10}), text: 'кофе около кремля'}), function(err, result) {...})
 
-            // proxy methods signature
-            // module.method(arg1, arg2, arg3, success_callback, error_callback)
-            // or module.method({"param1": arg1, "param2": arg2, "param3": arg3}, success_callback, error_callback)
-            // args can be JSON objects or proxy objects, generated from WSDL
-        },
-        error: function(err) {
-            throw err;
-        }
+
+        // args can be JSON objects or proxy objects, generated from WSDL
+
+        // proxy methods signature
+        // module.method(arg1, arg2, arg3, success_callback)
+        // or module.method({"param1": arg1, "param2": arg2, "param3": arg3}, success_callback)
     });
