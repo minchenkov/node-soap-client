@@ -6,7 +6,7 @@ new SoapClient({
 		var searchingModule = new metabus.SearchingModule();
 
 		searchingModule.search(new metabus.SearchQuery({geoFilter: {distance: 10}, text: 'кофе около кремля'}), function(result) {
-			console.log(result.faceting.marketplaceProperties[0])
+			console.log(result)
 		}, function(fault){
 			console.log(fault.children[1].text())
 		});
