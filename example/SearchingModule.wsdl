@@ -1,10 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
-  ~ Copyright JSC Metahouse
-  ~ 15.09.2011 00:36
-  ~ minchenkov
-  -->
-
 <wsdl:definitions name="SearchingModuleService"
 				  targetNamespace="http://searching.openapi.engine.services.web.service.metabus.ru/"
 				  xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"

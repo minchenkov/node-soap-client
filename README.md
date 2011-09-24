@@ -25,7 +25,18 @@ SOAP client library for NodeJS.
 
         // args can be JSON objects or proxy objects, generated from WSDL
 
-        // proxy methods signature
+        // service methods signature
         // module.method(arg1, arg2, arg3, success_callback)
         // or module.method({"param1": arg1, "param2": arg2, "param3": arg3}, success_callback)
     });
+
+    // Basic authorization is supported:
+    // new SoapClient({
+    //    wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'
+    //    authorization: {
+    //       type: 'Basic',
+    //       userName: 'Alladin',
+    //       password: 'open sesame'
+    //    },
+    // }, function(err, metabus) { ...
+
