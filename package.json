@@ -1,6 +1,6 @@
 {
     "name": "node-soap-client",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "SOAP client library ",
     "keywords": [
         "soap",
@@ -14,7 +14,9 @@
     },
     "dependencies": {
         "dom-js-ns": "0.0.3",
-        "simple-xml-writer" : "0.0.1"
+        "simple-xml-writer" : "0.0.1",
+        "request" : "2.1.1"
+
 
     },
     "homepage": "https://github.com/minchenkov/node-soap-client",
