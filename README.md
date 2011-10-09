@@ -32,7 +32,7 @@ SOAP client library for NodeJS.
 
     // Basic authorization is supported:
     // new SoapClient({
-    //    wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'
+    //    wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL',
     //    authorization: {
     //       type: 'Basic',
     //       userName: 'Alladin',
