@@ -5,7 +5,7 @@ new SoapClient({wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'}, fu
 
     searchingModule.search({geoFilter: {distance: 10}, text: 'кофе около кремля'}, function(err, result) {
         if (err)
-            console.log(err.children[1].text())
+            console.error('Server error:', err.message)
         else
             console.log(result);
     });
