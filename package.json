@@ -1,6 +1,6 @@
 {
     "name": "node-soap-client",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "SOAP client library ",
     "keywords": [
         "soap",
