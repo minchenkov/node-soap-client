@@ -9,7 +9,7 @@ SOAP client library for NodeJS.
 
     var SoapClient = require('node-soap-client').SoapClient;
 
-    new SoapClient({wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'}, function(err, metabus) {
+    new SoapClient({wsdl: 'http://api.metabus.ru/0.0.1/ws/SearchingModule?WSDL'}).init(function(err, metabus) {
         var searchingModule = new metabus.SearchingModule();
 
         searchingModule.search({geoFilter: {distance: 10}, text: ''}, function(err, result) {
@@ -38,5 +38,5 @@ SOAP client library for NodeJS.
     //       userName: 'Alladin',
     //       password: 'open sesame'
     //    },
-    // }, function(err, metabus) { ...
+    // }).init(function(err, metabus) { ...
 

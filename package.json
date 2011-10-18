@@ -1,6 +1,6 @@
 {
     "name": "node-soap-client",
-    "version": "0.0.9",
+    "version": "0.1.0",
     "description": "SOAP client library ",
     "keywords": [
         "soap",
@@ -20,8 +20,7 @@
 
     },
     "homepage": "https://github.com/minchenkov/node-soap-client",
-    "repository" :
-    {
+    "repository": {
         "type" : "git",
         "url" : "git://github.com/minchenkov/node-soap-client.git"
     }
